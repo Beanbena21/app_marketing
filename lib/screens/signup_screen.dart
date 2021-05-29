@@ -5,6 +5,7 @@ import 'package:app_marketing_version_2/view_models/authenticator.dart';
 import 'package:app_marketing_version_2/view_models/obscure.dart';
 import 'package:app_marketing_version_2/widgets/button_custom.dart';
 import 'package:app_marketing_version_2/widgets/dialog_custom.dart';
+import 'package:app_marketing_version_2/widgets/gesture_text.dart';
 import 'package:app_marketing_version_2/widgets/text_form_field_custom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,11 +13,11 @@ import 'package:provider/provider.dart';
 
 class SignupScreen extends StatelessWidget {
   final _formState = GlobalKey<FormState>();
-
-  final _firebaseAuth = FirebaseAuth.instance;
-
+  final Function? toggle;
+  SignupScreen({this.toggle});
   @override
   Widget build(BuildContext context) {
+    print('2');
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -70,9 +71,10 @@ class SignupScreen extends StatelessWidget {
                     onChanged: Validation.savePassword,
                     hintText: 'Enter your password',
                     icon: Icon(Icons.lock),
-                    obscureText: context.watch<Obscure>().suffixIcon,
+                    obscureText:
+                        context.select((Obscure value) => value.obscureSignup),
                     suffixIcon: true,
-                    onTap: () => context.read<Obscure>().changeSuffixIcon(),
+                    onTap: () => context.read<Obscure>().changeObscureSignup(),
                   ),
                   TextFormFieldCustom(
                     chooseStyle: false,
@@ -82,8 +84,7 @@ class SignupScreen extends StatelessWidget {
                     obscureText: true,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(
-                        top: _height * 0.05, bottom: _height * 0.04),
+                    padding: EdgeInsets.only(top: _height * 0.05),
                     child: ButtonCustom(
                       textButton: 'Sign up',
                       color: Colors.blue,
@@ -92,14 +93,33 @@ class SignupScreen extends StatelessWidget {
                       sideColor: Colors.blue,
                       height: _height * 0.07,
                       minWidth: _width * 0.4,
-                      onPressed: () async {
-                        if (_formState.currentState!.validate()) {
-                          context.read<Authenicator>().signUp(Validation.email!,
-                              Validation.password!, Validation.name!, context);
-                        }
+                      onPressed: () {
+                        //if (_formState.currentState!.validate()) {
+                        // context.read<Authenicator>().signUp(Validation.email!,
+                        //     Validation.password!, Validation.name!, context);
+                        context.read<Authenicator>().signUp(
+                            'beana@gmail.com', '123456', 'bean', context);
+                        //}
                       },
                     ),
-                  )
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: _height * 0.01),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Already have an account?',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            )),
+                        GestureText(
+                            label: ' Login',
+                            colorText: Colors.pink.shade200,
+                            onTap: () => toggle!()),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

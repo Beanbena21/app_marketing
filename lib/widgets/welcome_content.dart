@@ -2,6 +2,8 @@ import 'package:app_marketing_version_2/screens/log_sign_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../root_page.dart';
+
 class WelcomeContent extends StatelessWidget {
   final String image;
   final bool edgeInsets;
@@ -75,7 +77,7 @@ class WelcomeContent extends StatelessWidget {
             onTap: () => Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => LogSignScreen(),
+                  builder: (context) => MaterialApp(home: RootPage()),
                 )),
             child: Text(
               'Skip',

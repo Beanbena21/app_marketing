@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
 class Obscure extends ChangeNotifier {
-  bool _suffixIcon = true;
-  bool get suffixIcon => _suffixIcon;
+  bool _obscureLogin = true;
+  bool _obscureSigup = true;
+  bool get obscureLogin => _obscureLogin;
+  bool get obscureSignup => _obscureSigup;
 
-  void changeSuffixIcon() {
-    if (_suffixIcon) {
-      _suffixIcon = false;
-    } else
-      _suffixIcon = true;
+  void changeObscureSignup() {
+    _obscureSigup = !_obscureSigup;
+    notifyListeners();
+  }
+
+  void changeObscureLogin() {
+    _obscureLogin = !_obscureLogin;
     notifyListeners();
   }
 }

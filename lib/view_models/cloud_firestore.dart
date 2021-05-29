@@ -19,29 +19,16 @@ class CloudFirestore {
       {required String? id,
       required String? name,
       required String? email,
-      required BuildContext context}) {
+      required BuildContext context}) async {
     CollectionReference _user = _firebaseFirestore.collection('users');
-    return _user.doc(id).set({
-      'full_name': name,
-      'email': email,
-      'createAt': DateFormat('dd/MM/yyyy - H:m:ss').format(DateTime.now())
-    }).then((value) {
-      Navigator.of(context).pop();
-      context.read<Authenicator>().signOut();
-      return Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => FutureBuilder(
-              future: Future.delayed(Duration(seconds: 1)),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return SuccessScreen();
-                } else
-                  return LoginScreen();
-              },
-            ),
-          ));
-    }).catchError((error) => DialogCustom.diaglogcustom(
-        context, false, 'Failed to add user: $error'));
+    return _user
+        .doc(id)
+        .set({
+          'full_name': name,
+          'email': email,
+          'createAt': DateFormat('dd/MM/yyyy - H:m:ss').format(DateTime.now())
+        })
+        .then((value) => print('User Add'))
+        .catchError((error) => print('Failed to add user: $error'));
   }
 }

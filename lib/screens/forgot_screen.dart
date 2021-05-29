@@ -1,5 +1,4 @@
 import 'package:app_marketing_version_2/helpers/validation.dart';
-import 'package:app_marketing_version_2/screens/success_screen.dart';
 import 'package:app_marketing_version_2/widgets/button_custom.dart';
 import 'package:app_marketing_version_2/widgets/text_form_field_custom.dart';
 import 'package:firebase_auth/firebase_auth.dart';

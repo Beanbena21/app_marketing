@@ -1,5 +1,3 @@
-import 'package:app_marketing_version_2/screens/login_screen.dart';
-import 'package:app_marketing_version_2/screens/success_screen.dart';
 import 'package:app_marketing_version_2/view_models/cloud_firestore.dart';
 import 'package:app_marketing_version_2/widgets/dialog_custom.dart';
 import 'package:app_marketing_version_2/widgets/loading_spinkit.dart';
@@ -11,7 +9,7 @@ class Authenicator {
   final FirebaseAuth _firebaseAuth;
 
   Authenicator(this._firebaseAuth);
-  //Stream<User?> get authStateChanges => _firebaseAuth.idTokenChanges();
+  Stream<User?> get authStateChanges => _firebaseAuth.idTokenChanges();
 
   //log out
   Future<void> signOut() async {
@@ -19,13 +17,14 @@ class Authenicator {
   }
 
   //sign up
-  Future<void> signUp(
+  void signUp(
       String email, String password, String name, BuildContext context) async {
     LoadingSpinkit.loadingSpinkit(context);
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       if (userCredential.user != null) {
+        Navigator.of(context).pop();
         context.read<CloudFirestore>().addUser(
             context: context,
             id: userCredential.user!.uid,
@@ -35,33 +34,41 @@ class Authenicator {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         Navigator.of(context).pop();
-        return DialogCustom.diaglogcustom(
+        DialogCustom.diaglogcustom(
             context, false, 'The account already exists for that email.');
+      } else {
+        Navigator.of(context).pop();
+        DialogCustom.diaglogcustom(context, false, 'Network no working');
       }
     } catch (e) {
       Navigator.of(context).pop();
-      return DialogCustom.diaglogcustom(context, false, e.toString());
+      DialogCustom.diaglogcustom(context, false, e.toString());
     }
   }
 
   //sign in
-  Future signIn(String email, String password, BuildContext context) async {
-    //LoadingSpinkit.loadingSpinkit(context);
+  void signIn(String email, String password, BuildContext context) async {
+    LoadingSpinkit.loadingSpinkit(context);
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-
-      //return Navigator.of(context).pop();
+      Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        //Navigator.of(context).pop();
-        return DialogCustom.diaglogcustom(
+        Navigator.of(context).pop();
+        DialogCustom.diaglogcustom(
             context, false, 'No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        //Navigator.of(context).pop();
-        return DialogCustom.diaglogcustom(
+        Navigator.of(context).pop();
+        DialogCustom.diaglogcustom(
             context, false, 'Wrong password provided for that user.');
+      } else {
+        Navigator.of(context).pop();
+        DialogCustom.diaglogcustom(context, false, 'Network no working');
       }
+    } catch (e) {
+      Navigator.of(context).pop();
+      DialogCustom.diaglogcustom(context, false, e.toString());
     }
   }
 

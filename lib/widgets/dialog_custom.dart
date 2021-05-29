@@ -7,9 +7,9 @@ class DialogCustom {
       showGeneralDialog(
         context: context,
         barrierLabel: "Barrier",
-        barrierDismissible: true,
+        barrierDismissible: false,
         barrierColor: Colors.black.withOpacity(0.5),
-        transitionDuration: Duration(milliseconds: 700),
+        transitionDuration: Duration(milliseconds: 200),
         pageBuilder: (context, animation, secondaryAnimation) => Dialog(
             child: Stack(
           clipBehavior: Clip.none,

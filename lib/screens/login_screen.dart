@@ -14,10 +14,13 @@ import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   final _formState = GlobalKey<FormState>();
+  final Function? toggle;
+  LoginScreen({this.toggle});
   @override
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
+    print('1');
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -69,9 +72,10 @@ class LoginScreen extends StatelessWidget {
                       onChanged: Validation.savePassword,
                       hintText: 'Enter your password',
                       icon: Icon(Icons.lock),
-                      obscureText: context.watch<Obscure>().suffixIcon,
+                      obscureText:
+                          context.select((Obscure value) => value.obscureLogin),
                       suffixIcon: true,
-                      onTap: () => context.read<Obscure>().changeSuffixIcon(),
+                      onTap: () => context.read<Obscure>().changeObscureLogin(),
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: _height * 0.01),
@@ -86,12 +90,15 @@ class LoginScreen extends StatelessWidget {
                     ),
                     ButtonCustom(
                         onPressed: () {
-                          if (_formState.currentState!.validate()) {
-                            context.read<Authenicator>().signIn(
-                                Validation.email!,
-                                Validation.password!,
-                                context);
-                          }
+                          //if (_formState.currentState!.validate()) {
+                          // context.read<Authenicator>().signIn(
+                          //     Validation.email!,
+                          //     Validation.password!,
+                          //     context);
+                          context
+                              .read<Authenicator>()
+                              .signIn('bean@gmail.com', '123456', context);
+                          //}
                         },
                         textButton: 'Sign in',
                         color: Colors.blue,
@@ -114,10 +121,7 @@ class LoginScreen extends StatelessWidget {
                         GestureText(
                             label: ' Sign up',
                             colorText: Colors.pink.shade200,
-                            onTap: () => Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignupScreen()))),
+                            onTap: () => toggle!()),
                       ],
                     ),
                   ],

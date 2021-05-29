@@ -1,3 +1,4 @@
+import 'package:app_marketing_version_2/screens/signup_screen.dart';
 import 'package:app_marketing_version_2/widgets/button_custom.dart';
 import 'package:app_marketing_version_2/widgets/circle_avatar_custom.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,10 @@ class LogSignScreen extends StatelessWidget {
                             color: Colors.blue,
                             textColor: Colors.white),
                         ButtonCustom(
-                            onPressed: () {},
+                            onPressed: () => Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignupScreen())),
                             radius: 30,
                             sideColor: Colors.blue,
                             height: _height * 0.07,
