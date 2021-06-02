@@ -3,21 +3,23 @@ import 'package:flutter/material.dart';
 class TextFormFieldCustom extends StatelessWidget {
   final String hintText;
   final bool obscureText;
-  final Icon icon;
+  final Icon? icon;
   final VoidCallback? onTap;
   final bool chooseStyle;
   final bool suffixIcon;
   final FormFieldValidator<String>? validator;
   final ValueChanged<String>? onChanged;
+  final TextAlign textAlign;
   TextFormFieldCustom({
     required this.chooseStyle,
     required this.hintText,
-    required this.icon,
+    this.icon,
     this.suffixIcon = false,
     this.obscureText = false,
     this.onTap,
     this.validator,
     this.onChanged,
+    this.textAlign = TextAlign.left,
   });
   @override
   Widget build(BuildContext context) {
@@ -60,6 +62,7 @@ class TextFormFieldCustom extends StatelessWidget {
         obscureText: obscureText,
         validator: validator,
         onChanged: onChanged,
+        textAlign: textAlign,
         decoration: InputDecoration(
           contentPadding:
               EdgeInsets.only(top: height * 0.025, bottom: height * 0.025),

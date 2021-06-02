@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'button_custom.dart';
 
 class DialogCustom {
-  static diaglogcustom(BuildContext context, bool choose, String content) =>
-      showGeneralDialog(
+  static diaglogcustom(
+          BuildContext context, bool choose, String content) async =>
+      await showGeneralDialog(
         context: context,
         barrierLabel: "Barrier",
         barrierDismissible: false,

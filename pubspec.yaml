@@ -36,6 +36,9 @@ dependencies:
   intl: ^0.17.0
   shared_preferences: ^2.0.6
   flutter_spinkit: ^5.0.0
+  fl_chart: ^0.36.1
+  google_sign_in: ^5.0.4
+  image_picker: ^0.8.0
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +68,7 @@ flutter:
     - assets/images/signup.png
     - assets/images/success.png
     - assets/images/forgot.png
+    - assets/images/icon_person.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,5 +1,7 @@
 import 'package:app_marketing_version_2/helpers/validation.dart';
+import 'package:app_marketing_version_2/view_models/authenticator.dart';
 import 'package:app_marketing_version_2/widgets/button_custom.dart';
+import 'package:app_marketing_version_2/widgets/gesture_text.dart';
 import 'package:app_marketing_version_2/widgets/text_form_field_custom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -55,30 +57,13 @@ class ForgotScreen extends StatelessWidget {
                         icon: Icon(Icons.email)),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: _height * 0.02),
+                    padding: EdgeInsets.symmetric(vertical: _height * 0.02),
                     child: ButtonCustom(
                         onPressed: () {
                           if (_formState.currentState!.validate()) {
-                            // Navigator.of(context)
-                            //     .pushReplacement(MaterialPageRoute(
-                            //   builder: (context) => FutureBuilder(
-                            //       future: Future.delayed(Duration(seconds: 1)),
-                            //       builder: (context, snapshot) {
-                            //         if (snapshot.connectionState ==
-                            //             ConnectionState.waiting) {
-                            //           return SuccessScreen();
-                            //         } else
-                            //           return LoginScreen();
-                            //       }),
-                            // ));
-                            final firebaseUser = context.read<User?>();
-                            if (firebaseUser == null) {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => LoginScreen(),
-                                  ));
-                            }
+                            context
+                                .read<Authenicator>()
+                                .forgotPassword(Validation.email!, context);
                           }
                         },
                         textButton: 'Reset Password',
@@ -87,7 +72,21 @@ class ForgotScreen extends StatelessWidget {
                         radius: 30,
                         sideColor: Colors.blue,
                         height: _height * 0.065),
-                  )
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Do you remember the password?',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                          )),
+                      GestureText(
+                          label: ' Login',
+                          colorText: Colors.pink.shade200,
+                          onTap: () => Navigator.pop(context))
+                    ],
+                  ),
                 ],
               ),
             ),

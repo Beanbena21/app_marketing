@@ -20,7 +20,6 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
-    print('1');
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
@@ -82,7 +81,7 @@ class LoginScreen extends StatelessWidget {
                       child: GestureText(
                           label: 'Forgot password?',
                           colorText: Colors.blue,
-                          onTap: () => Navigator.pushReplacement(
+                          onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ForgotScreen(),
@@ -90,15 +89,12 @@ class LoginScreen extends StatelessWidget {
                     ),
                     ButtonCustom(
                         onPressed: () {
-                          //if (_formState.currentState!.validate()) {
-                          // context.read<Authenicator>().signIn(
-                          //     Validation.email!,
-                          //     Validation.password!,
-                          //     context);
-                          context
-                              .read<Authenicator>()
-                              .signIn('bean@gmail.com', '123456', context);
-                          //}
+                          if (_formState.currentState!.validate()) {
+                            context.read<Authenicator>().signIn(
+                                Validation.email!,
+                                Validation.password!,
+                                context);
+                          }
                         },
                         textButton: 'Sign in',
                         color: Colors.blue,
@@ -121,7 +117,10 @@ class LoginScreen extends StatelessWidget {
                         GestureText(
                             label: ' Sign up',
                             colorText: Colors.pink.shade200,
-                            onTap: () => toggle!()),
+                            onTap: () => Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SignupScreen()))),
                       ],
                     ),
                   ],
@@ -149,7 +148,9 @@ class LoginScreen extends StatelessWidget {
                         width: _width * 0.1,
                       ),
                       CircleAvatarCustom(
-                          onTap: () {},
+                          onTap: () => context
+                              .read<Authenicator>()
+                              .signInWithGoogle(context),
                           images: 'assets/images/google.png',
                           radius: 30),
                     ],

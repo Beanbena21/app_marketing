@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:app_marketing_version_2/root_page.dart';
 import 'package:app_marketing_version_2/widgets/button_custom.dart';
 import 'package:app_marketing_version_2/widgets/welcome_content.dart';
 
@@ -104,12 +103,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 _pageController!.nextPage(
                     duration: Duration(milliseconds: 500),
                     curve: Curves.linearToEaseOut);
-                if (_numPage == _content!.length - 1)
+                if (_numPage == _content!.length - 1) {
                   Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MaterialApp(home: RootPage()),
-                      ));
+                    context,
+                    MaterialPageRoute(builder: (context) => LogSignScreen()),
+                  );
+                }
               },
               height: _height * 0.08,
               minWidth: _width * 0.4,

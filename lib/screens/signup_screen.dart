@@ -13,8 +13,7 @@ import 'package:provider/provider.dart';
 
 class SignupScreen extends StatelessWidget {
   final _formState = GlobalKey<FormState>();
-  final Function? toggle;
-  SignupScreen({this.toggle});
+
   @override
   Widget build(BuildContext context) {
     print('2');
@@ -94,12 +93,10 @@ class SignupScreen extends StatelessWidget {
                       height: _height * 0.07,
                       minWidth: _width * 0.4,
                       onPressed: () {
-                        //if (_formState.currentState!.validate()) {
-                        // context.read<Authenicator>().signUp(Validation.email!,
-                        //     Validation.password!, Validation.name!, context);
-                        context.read<Authenicator>().signUp(
-                            'beana@gmail.com', '123456', 'bean', context);
-                        //}
+                        if (_formState.currentState!.validate()) {
+                          context.read<Authenicator>().signUp(Validation.email!,
+                              Validation.password!, Validation.name!, context);
+                        }
                       },
                     ),
                   ),
@@ -116,7 +113,10 @@ class SignupScreen extends StatelessWidget {
                         GestureText(
                             label: ' Login',
                             colorText: Colors.pink.shade200,
-                            onTap: () => toggle!()),
+                            onTap: () => Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen()))),
                       ],
                     ),
                   ),

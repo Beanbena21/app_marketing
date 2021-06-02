@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Obscure extends ChangeNotifier {
@@ -14,5 +15,9 @@ class Obscure extends ChangeNotifier {
   void changeObscureLogin() {
     _obscureLogin = !_obscureLogin;
     notifyListeners();
+  }
+
+  void dispose() {
+    super.dispose();
   }
 }

@@ -1,8 +1,10 @@
 import 'package:app_marketing_version_2/screens/signup_screen.dart';
+import 'package:app_marketing_version_2/view_models/authenticator.dart';
+import 'package:app_marketing_version_2/view_models/share_preference.dart';
 import 'package:app_marketing_version_2/widgets/button_custom.dart';
 import 'package:app_marketing_version_2/widgets/circle_avatar_custom.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 import 'login_screen.dart';
 
 class LogSignScreen extends StatelessWidget {
@@ -47,10 +49,15 @@ class LogSignScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ButtonCustom(
-                            onPressed: () => Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen())),
+                            onPressed: () async {
+                              await context
+                                  .read<SharePreference>()
+                                  .save('welcome', 'first');
+                              await Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
+                            },
                             radius: 30,
                             sideColor: Colors.blue,
                             height: _height * 0.07,
@@ -59,10 +66,15 @@ class LogSignScreen extends StatelessWidget {
                             color: Colors.blue,
                             textColor: Colors.white),
                         ButtonCustom(
-                            onPressed: () => Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SignupScreen())),
+                            onPressed: () async {
+                              await context
+                                  .read<SharePreference>()
+                                  .save('welcome', 'first');
+                              await Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SignupScreen()));
+                            },
                             radius: 30,
                             sideColor: Colors.blue,
                             height: _height * 0.07,
@@ -97,7 +109,9 @@ class LogSignScreen extends StatelessWidget {
                       width: _width * 0.1,
                     ),
                     CircleAvatarCustom(
-                        onTap: () {},
+                        onTap: () => context
+                            .read<Authenicator>()
+                            .signInWithGoogle(context),
                         images: 'assets/images/google.png',
                         radius: 30),
                   ],

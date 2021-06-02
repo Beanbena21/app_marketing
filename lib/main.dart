@@ -1,10 +1,11 @@
-import 'package:app_marketing_version_2/root_page.dart';
 import 'package:app_marketing_version_2/screens/login_screen.dart';
-import 'package:app_marketing_version_2/screens/main_screen.dart';
+import 'package:app_marketing_version_2/screens/main/drawer_screen.dart';
+import 'package:app_marketing_version_2/screens/main/main_screen.dart';
 import 'package:app_marketing_version_2/screens/welcome_screen.dart';
 import 'package:app_marketing_version_2/view_models/authenticator.dart';
 import 'package:app_marketing_version_2/view_models/cloud_firestore.dart';
 import 'package:app_marketing_version_2/view_models/obscure.dart';
+import 'package:app_marketing_version_2/view_models/pick_image.dart';
 import 'package:app_marketing_version_2/view_models/share_preference.dart';
 import 'package:app_marketing_version_2/widgets/loading_spinkit.dart';
 
@@ -23,10 +24,6 @@ void main() async {
       Provider<SharePreference>(
         create: (context) => SharePreference(),
       ),
-      StreamProvider<User?>(
-        create: (context) => context.read<Authenicator>().authStateChanges,
-        initialData: null,
-      ),
       Provider<CloudFirestore>(
         create: (_) => CloudFirestore(FirebaseFirestore.instance),
       ),
@@ -36,6 +33,9 @@ void main() async {
       Provider<Authenicator>(
         create: (_) => Authenicator(FirebaseAuth.instance),
       ),
+      ChangeNotifierProvider<PickImage>(
+        create: (_) => PickImage(),
+      )
     ],
     child: MyApp(),
   ));
@@ -44,41 +44,31 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Future.delayed(Duration(seconds: 5)),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting)
-            return MaterialApp(home: SplashScreen());
-          return FutureBuilder(
-            future: context.read<SharePreference>().read('key'),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final user = context.read<User?>();
-                if (user != null)
-                  return MaterialApp(home: MainScreen());
-                else
-                  return MaterialApp(home: LoginScreen());
-              }
-              return MaterialApp(home: WelcomeScreen());
-            },
-          );
-        });
-    // return StreamBuilder<User?>(
-    //   stream: context.read<Authenicator>().authStateChanges,
-    //   builder: (context, snapshot) {
-    //     if (snapshot.connectionState == ConnectionState.waiting) {
-    //       return MaterialApp(home: SplashScreen());
-    //     }
-
-    //     if (snapshot.hasData) {
-    //       return MaterialApp(
-    //         home: MainScreen(),
-    //       );
-    //     } else
-    //       return MaterialApp(
-    //         home: RootPage(),
-    //       );
-    //   },
+    // return FutureBuilder(
+    //   future: Future.delayed(Duration(seconds: 5)),
+    //   builder: (context, snapshot) => FutureBuilder(
+    //     future: context.read<SharePreference>().read('welcome'),
+    //     builder: (context, snapshot1) => FutureBuilder(
+    //       future: context.read<SharePreference>().read('login'),
+    //       builder: (context, snapshot2) {
+    //         if (snapshot.connectionState == ConnectionState.waiting)
+    //           return MaterialApp(home: SplashScreen());
+    //         else {
+    //           if (snapshot1.hasData && snapshot1.data != null) {
+    //             if (snapshot2.hasData && snapshot1.data != null) {
+    //               return MaterialApp(
+    //                   home: MainScreen(
+    //                 uid: snapshot2.data.toString(),
+    //               ));
+    //             } else
+    //               return MaterialApp(home: LoginScreen());
+    //           }
+    //           return MaterialApp(home: WelcomeScreen());
+    //         }
+    //       },
+    //     ),
+    //   ),
     // );
+    return MaterialApp(home: MainScreen());
   }
 }
